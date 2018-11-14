@@ -1,0 +1,18 @@
+﻿  main.cpp
+c:\users\paula\downloads\learnopengl-master\learnopengl-master\learnopengl\shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+c:\users\paula\downloads\learnopengl-master\learnopengl-master\learnopengl\shader.h(64): warning C4101: 'success': unreferenced local variable
+c:\users\paula\downloads\learnopengl-master\learnopengl-master\learnopengl\main.cpp(15): warning C4244: 'initializing': conversion from 'time_t' to 'int', possible loss of data
+c:\users\paula\downloads\learnopengl-master\learnopengl-master\learnopengl\main.cpp(419): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\paula\downloads\learnopengl-master\learnopengl-master\learnopengl\main.cpp(428): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\paula\downloads\learnopengl-master\learnopengl-master\learnopengl\main.cpp(457): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\paula\downloads\learnopengl-master\learnopengl-master\learnopengl\main.cpp(458): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\paula\downloads\learnopengl-master\learnopengl-master\learnopengl\main.cpp(483): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\paula\downloads\learnopengl-master\learnopengl-master\learnopengl\main.cpp(485): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\paula\downloads\learnopengl-master\learnopengl-master\learnopengl\main.cpp(512): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\paula\downloads\learnopengl-master\learnopengl-master\learnopengl\main.cpp(514): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\paula\downloads\learnopengl-master\learnopengl-master\learnopengl\main.cpp(540): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\paula\downloads\learnopengl-master\learnopengl-master\learnopengl\main.cpp(542): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\paula\downloads\learnopengl-master\learnopengl-master\learnopengl\main.cpp(561): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\paula\downloads\learnopengl-master\learnopengl-master\learnopengl\main.cpp(589): warning C4244: '=': conversion from 'time_t' to 'int', possible loss of data
+  LearnOpenGL.vcxproj -> C:\Users\Paula\Downloads\LearnOpenGL-master\LearnOpenGL-master\Debug\LearnOpenGL.exe
+  LearnOpenGL.vcxproj -> C:\Users\Paula\Downloads\LearnOpenGL-master\LearnOpenGL-master\Debug\LearnOpenGL.pdb (Partial PDB)
