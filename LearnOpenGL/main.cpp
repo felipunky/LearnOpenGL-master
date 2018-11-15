@@ -10,6 +10,7 @@
 #include <time.h>
 #include <iostream>
 #include <string>
+#include <vector>
 
 // FPS, iFrame counter.
 int initialTime = time( NULL ), finalTime, frameCount, frames, FPS;
@@ -41,6 +42,17 @@ float pressed = 0.0, right_pressed = 0.0;
 static void cursorPositionCallback( GLFWwindow *window, double xPos, double yPos );
 // Our mouse button press.
 static void mouseButtonCallback( GLFWwindow *window, int button, int action, int mods );
+
+// We need some data structure that contains our points, a struct will do.
+struct Points
+{
+
+	float x;
+	float y;
+	float z;
+
+};
+
 
 int main() 
 {
@@ -142,6 +154,38 @@ int main()
 	// Unbind the VAO.
 	glBindVertexArray( 0 );
 
+	const unsigned int siz = 10;
+	const unsigned int mat = siz * siz;
+
+	std::vector<Points> points(mat);
+
+	int indexes[mat];
+	int counter = 0;
+
+	float dis = 2.0;
+
+	for (int i = 0; i < siz; ++i)
+	{
+
+		for (int j = 0; j < siz; ++j)
+		{
+
+			points[i].x = i * dis;
+			points[j].y = j * dis;
+			points[i].z = 0;
+
+			std::cout << "Points: " << points[i].x << ", " << points[j].y << ", " << points[j].z << std::endl;
+
+			indexes[j] = counter;
+
+			//std::cout << "Index #: " << indexes[j] << std::endl;
+
+			counter++;
+
+		}
+
+	}
+	/*
 	// This is for our particles.
 	// We define the points in space that we want to render.
 	float verticesParticles[] =
@@ -166,7 +210,7 @@ int main()
 		6
 
 	};
-
+	*/
 	// We create a buffer ID so that we can later assign it to our buffers.
 	unsigned int VBOO, VAOO, EBOO;
 	glGenVertexArrays( 1, &VAOO );
@@ -179,14 +223,14 @@ int main()
 	// Copy our vertices array in a buffer for OpenGL to use.
 	// We assign our buffer ID to our new buffer and we overload it with our triangles array.
 	glBindBuffer( GL_ARRAY_BUFFER, VBOO );
-	glBufferData( GL_ARRAY_BUFFER, sizeof( verticesParticles ), verticesParticles, GL_STATIC_DRAW );
+	glBufferData( GL_ARRAY_BUFFER, points.size() * sizeof( Points ), &points[0], GL_STATIC_DRAW );
 
 	// Copy our indices in an array for OpenGL to use.
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, EBOO );
-	glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof( indicesParticles ), indicesParticles, GL_STATIC_DRAW );
+	glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof( indexes ), indexes, GL_STATIC_DRAW );
 
 	// Set our vertex attributes pointers.
-	glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof( float ), ( void* ) 0 );
+	glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof( float ), ( void* ) 0 );
 	glEnableVertexAttribArray( 0 );
 	/*
 	// Set our texture coordinates attributes.
@@ -546,7 +590,7 @@ int main()
 		glBindTexture( GL_TEXTURE_2D, even ? textureColourBufferSeven : textureColourBufferSix );
 		glActiveTexture( GL_TEXTURE1 );
 		glBindTexture( GL_TEXTURE_2D, even ? textureColourBufferOne : textureColourBuffer );
-		glDrawElements( GL_POINTS, 6, GL_UNSIGNED_INT, 0 );
+		glDrawElements( GL_POINTS, mat, GL_UNSIGNED_INT, 0 );
 		glEnable( GL_PROGRAM_POINT_SIZE );
 		glBindVertexArray( 0 );
 

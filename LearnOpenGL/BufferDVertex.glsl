@@ -30,7 +30,7 @@ void main()
 
 	vec2 mou = iMouse / iResolution;
 
-	gl_PointSize = 10.0;
+	gl_PointSize = 5.0;
 	//gl_Position = vec4( sin( aPos.x + iTime ), cos( aPos.y + iTime ), aPos.z, 1.0 );
 	gl_Position = vec4( fld + aPos.xy, aPos.z, 1 );
 
