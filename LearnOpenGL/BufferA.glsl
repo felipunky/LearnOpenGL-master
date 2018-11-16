@@ -146,6 +146,7 @@ void main()
 	float ra = siz * mul;
 
 	if( iMouse.z > 0.5 && smoothstep( ra, ra - 0.05, length( p - mou ) ) > 0.0 ) 
+	//if( iMouse.z > 0.5 && length( p - mou ) ) < ra )
 	fld = 3.0 * vel;
 
     if( uv.y < 0.00 || uv.x < 0.00 || uv.x > 1.0 || uv.y > 1.0 ) o *= 0.0;

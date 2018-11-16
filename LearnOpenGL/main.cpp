@@ -534,6 +534,8 @@ int main()
 		BufferB.setVec2( "iResolution", WIDTH, HEIGHT );
 		// Input iMouse.
 		BufferB.setVec3( "iMouse", xPos, yPos, pressed );
+		// Input mouse iVel.
+		BufferB.setVec2( "iVel", vX, vY );
 
 		glBindVertexArray( VAO );
 		glActiveTexture( GL_TEXTURE0 );
@@ -591,6 +593,8 @@ int main()
 		BufferD.setVec2( "iResolution", WIDTH, HEIGHT );
 		// Input iMouse.
 		BufferD.setVec3( "iMouse", xPos, yPos, pressed );
+		// Input mouse iVel.
+		BufferD.setVec2( "iVel", vX, vY );
 
 		glBindVertexArray( VAOO );
 		glActiveTexture( GL_TEXTURE0 );

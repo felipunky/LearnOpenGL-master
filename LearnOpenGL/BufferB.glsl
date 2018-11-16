@@ -5,6 +5,7 @@ uniform int iFrame;
 uniform float iTime;
 uniform float iTimeDelta;
 uniform vec2 iResolution;
+uniform vec2 iVel;
 uniform vec3 iMouse;
 uniform sampler2D iChannel0;
 uniform sampler2D iChannel1;
@@ -179,7 +180,6 @@ vec4 forc( vec2 uv, vec2 p, vec2 mou, sampler2D tex, out float cen )
     //col += 0.3 * vec4( fbm( p + 1.0 ), fbm( p + 0.5 ), fbm( p + 2.0 ), 1 );
     if( iMouse.z > 0.5 )
 	col += 0.1 * cir( p, mou, siz );
-    
     //col += ( di * rbe ) * ( top + lef + rig + dow + alp * cen ) * rbe;
     //if( iFrame <= 10 )
     //col += 0.1 * noise( uv * 100.0 );
