@@ -18,7 +18,7 @@ int initialTime = time( NULL ), finalTime, frameCount, frames, FPS;
 const char* title;
 // Mouse.
 static double xPre, yPre;
-double xPos, yPos, xDif, yDif, vX, vY;
+double xPos, yPos, xDif, yDif, xAce, yAce, vX, vY;
 // timing
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
@@ -132,44 +132,12 @@ int main()
 	// Set our vertex attributes pointers.
 	glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof( float ), ( void* ) 0 );
 	glEnableVertexAttribArray( 0 );
-	/*
-	// Set our texture coordinates attributes.
-	glVertexAttribPointer( 2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof( float ), ( void* )( 6 * sizeof( float ) ) );
-	glEnableVertexAttribArray( 2 );
-	*/
 
 	// Unbind the VBO.
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 
 	// Unbind the VAO.
 	glBindVertexArray( 0 );
-
-	/*
-	// This is for our particles.
-	// We define the points in space that we want to render.
-	float verticesParticles[] =
-	{
-
-		// Positions.            // TextureCoordinates.
-		-1.0f,  -1.0f, 0.0f,    //-1.0f,  1.0f,
-		-1.0f,   1.0f, 0.0f,    //1.0f,  1.0f,
-		 0.5f,   0.5f, 0.0f,
-		 1.0f,   1.0f, 0.0f,    //1.0f, -1.0f,
-		 1.0f,  -1.0f, 0.0f,    //-1.0f, -1.0f
-		 0.2f,   0.3f, 0.0f
-	};
-
-	// We define our Element Buffer Object indices so that if we have vertices that overlap,
-	// we dont have to render twice, 50% overhead.
-	unsigned int indicesParticles[] =
-	{
-
-		0, 1, 2,
-		3, 4, 5,
-		6
-
-	};
-	*/
 
 	const int siz = 350;
 
@@ -178,11 +146,6 @@ int main()
 	int counter = 0;
 
 	float dis = 0.003;
-
-	/*
-	for ( int i = 0; i < mat * 3; ++i )
-		ind.push_back( i );
-	*/
 
 	for ( int i = -siz; i < siz; ++i )
 	{
@@ -197,24 +160,11 @@ int main()
 
 			ind.push_back( counter );
 
-			//std::cout << "Points: " << points[i].x << ", " << points[j].y << ", " << points[j].z << std::endl;
-
-			//indexes[j] = counter;
-
-			//std::cout << "Index #: " << indexes[j] << std::endl;
-
 			counter++;
 
 		}
 
 	}
-
-	//std::cout << "The size of the points is: " << points.size() << std::endl;
-	//std::cout << "The size of the points indices is: " << ind.size() << std::endl;
-	//std::cout << "The x component of the points size is: " << points[0].x << std::endl;
-
-	//float* passPoints = reinterpret_cast<GLfloat *>( points.data() );
-	//int* passIndex = reinterpret_cast<GLint *>( ind.data() );
 
 	// We create a buffer ID so that we can later assign it to our buffers.
 	unsigned int VBOO, VAOO, EBOO;
@@ -423,26 +373,6 @@ int main()
 		std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
 	glBindFramebuffer( GL_FRAMEBUFFER, 0 );
 
-	// Framebuffer configuration.
-	unsigned int frameBufferSeven;
-	glGenFramebuffers( 1, &frameBufferSeven );
-	glBindFramebuffer( GL_FRAMEBUFFER, frameBufferSeven );
-
-	// Create a colour attachment texture.
-	unsigned int textureColourBufferSeven;
-	glGenTextures( 1, &textureColourBufferSeven );
-	glBindTexture( GL_TEXTURE_2D, textureColourBufferSeven );
-	glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA32F, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-	glFramebufferTexture2D( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColourBufferSeven, 0 );
-
-	if ( glCheckFramebufferStatus( GL_FRAMEBUFFER ) != GL_FRAMEBUFFER_COMPLETE )
-		std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
-	glBindFramebuffer( GL_FRAMEBUFFER, 0 );
-
 	// We want to know if the frame we are rendering is even or odd.
 	bool even = true;
 
@@ -480,33 +410,33 @@ int main()
 		// Input iMouse.
 		glfwGetCursorPos( window, &xPos, &yPos );
 		yPos = HEIGHT - yPos;
+
 		xDif = xPos - xPre;
 		yDif = yPos - yPre;
+
+		const float dx = 0.5;
+		const float dt = dx * dx * 0.5;
+
 		if( xDif != 0 && pressed > 0.5 )
 		{
 		
-			if (deltaTime == 0) deltaTime = 1;
+			if( deltaTime == 0 ) deltaTime = 1;
 		
 			vX = xDif / deltaTime;
 
-			//std::cout << "xVelocity : " << vX << std::endl;
-
 		}
 
-		if ( yDif != 0 && pressed > 0.5 )
+		if( yDif != 0 && pressed > 0.5 )
 		{
 
-			if (deltaTime == 0) deltaTime = 1;
+			if( deltaTime == 0 ) deltaTime = 1;
 
 			vY = yDif / deltaTime;
-
-			//std::cout << "yVelocity : " << vY << std::endl;
 
 		}
 
 		// BufferA
 		BufferA.setVec3( "iMouse", xPos, yPos, pressed );
-		BufferA.setVec2( "iVel", vX, vY );
 
 		glBindVertexArray( VAO );
 		glActiveTexture( GL_TEXTURE0 );
@@ -580,7 +510,7 @@ int main()
 		glClear( GL_COLOR_BUFFER_BIT );
 
 		// BufferD
-		glBindFramebuffer( GL_FRAMEBUFFER, even ? textureColourBufferSeven : textureColourBufferSix );
+		glBindFramebuffer( GL_FRAMEBUFFER, textureColourBufferSix );
 		glClearColor( 0.2f, 0.3f, 0.1f, 1.0f );
 		glClear( GL_COLOR_BUFFER_BIT );
 
@@ -593,15 +523,10 @@ int main()
 		BufferD.setVec2( "iResolution", WIDTH, HEIGHT );
 		// Input iMouse.
 		BufferD.setVec3( "iMouse", xPos, yPos, pressed );
-		// Input mouse iVel.
-		BufferD.setVec2( "iVel", vX, vY );
 
 		glBindVertexArray( VAOO );
 		glActiveTexture( GL_TEXTURE0 );
-		glBindTexture( GL_TEXTURE_2D, even ? textureColourBufferSeven : textureColourBufferSix );
-		glActiveTexture( GL_TEXTURE1 );
 		glBindTexture( GL_TEXTURE_2D, even ? textureColourBufferOne : textureColourBuffer );
-		//glDrawArrays( GL_POINTS, 0, points.size() * 3 );
 		glDrawElements( GL_POINTS, ind.size(), GL_UNSIGNED_INT, 0 );
 		glEnable( GL_PROGRAM_POINT_SIZE );
 		glBindVertexArray( 0 );
@@ -625,7 +550,7 @@ int main()
 		glActiveTexture( GL_TEXTURE2 );
 		glBindTexture( GL_TEXTURE_2D, even ? textureColourBufferFive : textureColourBufferFour );
 		glActiveTexture( GL_TEXTURE3 );
-		glBindTexture( GL_TEXTURE_2D, even ? textureColourBufferSeven : textureColourBufferSix );
+		glBindTexture( GL_TEXTURE_2D, textureColourBufferSix );
 		glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0 );
 		
 		glBindVertexArray( 0 );

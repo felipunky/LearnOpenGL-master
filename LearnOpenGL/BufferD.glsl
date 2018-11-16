@@ -11,11 +11,6 @@ uniform sampler2D iChannel1;
 void main()
 {
 
-	vec2 uv = gl_FragCoord.xy / iResolution;
-
 	fragColor = vertexColour;
-	//fragColor = texture( iChannel1, uv );
-	//fragColor += 0.2 * texture( iChannel2, uv );
-	//fragColor = texture( iChannel0, uv );
 
 }
