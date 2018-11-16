@@ -20,7 +20,7 @@ const float vo = 12.0;
 const int FIELD = 1;
 const float vf = 0.01;//0.005;
 const float mul = 20.0;
-const float e = 1e-2;//0.005;
+const float e = 1e-3;//0.005;
 const float pres = 0.01;
 
 float hash( vec2 a )

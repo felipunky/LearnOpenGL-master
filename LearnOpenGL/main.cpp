@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#include <glm.hpp>
 
 #include "Shader.h"
 #include "wtypes.h"
@@ -43,17 +44,6 @@ static void cursorPositionCallback( GLFWwindow *window, double xPos, double yPos
 // Our mouse button press.
 static void mouseButtonCallback( GLFWwindow *window, int button, int action, int mods );
 
-// We need some data structure that contains our points, a struct will do.
-struct Points
-{
-
-	float x;
-	float y;
-	float z;
-
-};
-
-
 int main() 
 {
 
@@ -64,7 +54,7 @@ int main()
 	glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
 
 	// Our window object.
-	GLFWwindow* window = glfwCreateWindow( SRC_WIDTH, SRC_HEIGHT, "NavierStokeish", glfwGetPrimaryMonitor(), NULL );
+	GLFWwindow* window = glfwCreateWindow( SRC_WIDTH, SRC_HEIGHT, "NavierStokeish", NULL, NULL );
 	if ( window == NULL )
 	{
 
@@ -154,37 +144,6 @@ int main()
 	// Unbind the VAO.
 	glBindVertexArray( 0 );
 
-	const unsigned int siz = 10;
-	const unsigned int mat = siz * siz;
-
-	std::vector<Points> points(mat);
-
-	int indexes[mat];
-	int counter = 0;
-
-	float dis = 2.0;
-
-	for (int i = 0; i < siz; ++i)
-	{
-
-		for (int j = 0; j < siz; ++j)
-		{
-
-			points[i].x = i * dis;
-			points[j].y = j * dis;
-			points[i].z = 0;
-
-			std::cout << "Points: " << points[i].x << ", " << points[j].y << ", " << points[j].z << std::endl;
-
-			indexes[j] = counter;
-
-			//std::cout << "Index #: " << indexes[j] << std::endl;
-
-			counter++;
-
-		}
-
-	}
 	/*
 	// This is for our particles.
 	// We define the points in space that we want to render.
@@ -211,6 +170,52 @@ int main()
 
 	};
 	*/
+
+	const int siz = 350;
+
+	std::vector<glm::vec3> points;
+	std::vector<int> ind;
+	int counter = 0;
+
+	float dis = 0.003;
+
+	/*
+	for ( int i = 0; i < mat * 3; ++i )
+		ind.push_back( i );
+	*/
+
+	for ( int i = -siz; i < siz; ++i )
+	{
+
+		for ( int j = -siz; j < siz; ++j )
+		{
+
+			float x = i * dis;
+			float y = j * dis;
+			float z = 0;
+			points.push_back( glm::vec3( x, y, z ) );
+
+			ind.push_back( counter );
+
+			//std::cout << "Points: " << points[i].x << ", " << points[j].y << ", " << points[j].z << std::endl;
+
+			//indexes[j] = counter;
+
+			//std::cout << "Index #: " << indexes[j] << std::endl;
+
+			counter++;
+
+		}
+
+	}
+
+	//std::cout << "The size of the points is: " << points.size() << std::endl;
+	//std::cout << "The size of the points indices is: " << ind.size() << std::endl;
+	//std::cout << "The x component of the points size is: " << points[0].x << std::endl;
+
+	//float* passPoints = reinterpret_cast<GLfloat *>( points.data() );
+	//int* passIndex = reinterpret_cast<GLint *>( ind.data() );
+
 	// We create a buffer ID so that we can later assign it to our buffers.
 	unsigned int VBOO, VAOO, EBOO;
 	glGenVertexArrays( 1, &VAOO );
@@ -223,14 +228,16 @@ int main()
 	// Copy our vertices array in a buffer for OpenGL to use.
 	// We assign our buffer ID to our new buffer and we overload it with our triangles array.
 	glBindBuffer( GL_ARRAY_BUFFER, VBOO );
-	glBufferData( GL_ARRAY_BUFFER, points.size() * sizeof( Points ), &points[0], GL_STATIC_DRAW );
+	//glBufferData( GL_ARRAY_BUFFER, points.size() * sizeof( Points ), passPoints, GL_STATIC_DRAW );
+	glBufferData( GL_ARRAY_BUFFER, points.size() * sizeof( glm::vec3 ), &points.front(), GL_STATIC_DRAW );
 
 	// Copy our indices in an array for OpenGL to use.
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, EBOO );
-	glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof( indexes ), indexes, GL_STATIC_DRAW );
+	//glBufferData( GL_ELEMENT_ARRAY_BUFFER, ind.size() * sizeof( GLint ), passIndex, GL_STATIC_DRAW );
+	glBufferData( GL_ELEMENT_ARRAY_BUFFER, ind.size() * sizeof( int ), &ind.front(), GL_STATIC_DRAW );
 
 	// Set our vertex attributes pointers.
-	glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof( float ), ( void* ) 0 );
+	glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof( float ), ( void* ) 0 );
 	glEnableVertexAttribArray( 0 );
 	/*
 	// Set our texture coordinates attributes.
@@ -590,7 +597,8 @@ int main()
 		glBindTexture( GL_TEXTURE_2D, even ? textureColourBufferSeven : textureColourBufferSix );
 		glActiveTexture( GL_TEXTURE1 );
 		glBindTexture( GL_TEXTURE_2D, even ? textureColourBufferOne : textureColourBuffer );
-		glDrawElements( GL_POINTS, mat, GL_UNSIGNED_INT, 0 );
+		//glDrawArrays( GL_POINTS, 0, points.size() * 3 );
+		glDrawElements( GL_POINTS, ind.size(), GL_UNSIGNED_INT, 0 );
 		glEnable( GL_PROGRAM_POINT_SIZE );
 		glBindVertexArray( 0 );
 
