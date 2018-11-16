@@ -54,7 +54,7 @@ int main()
 	glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
 
 	// Our window object.
-	GLFWwindow* window = glfwCreateWindow( SRC_WIDTH, SRC_HEIGHT, "NavierStokeish", glfwGetPrimaryMonitor(), NULL );
+	GLFWwindow* window = glfwCreateWindow( SRC_WIDTH, SRC_HEIGHT, "NavierStokeish", NULL, NULL );
 	if ( window == NULL )
 	{
 
