@@ -22,11 +22,11 @@ void main()
 
 	vec2 uv = transformedPos.xy;
 
-	vec2 fld = texture2D( iChannel0, uv ).xy;
+	vec4 fld = texture2D( iChannel0, uv ).xyzw * 0.1;
 
-	vec2 pos = fld + aPos.xy;
+	vec2 pos = fld.xy + aPos.xy;
 
-	vertexColour = vec4( fld, 0, 1 );
+	vertexColour = vec4( fld.w );
 
 	gl_Position = vec4( pos, 0, 1 );
 

@@ -58,8 +58,8 @@ void main( )
     tot = 0.5 + tot * 0.5;
     tot = clamp(tot, 0., 1.);
     
-	fragColor = vec4( mix( vec3( tot, 0.1, 0.4 ), vec3( 0.2, tex, tot ), tex ), cen.r );
+    //fragColor = vec4( mix( vec3( tot, 0.1, 0.4 ), vec3( 0 ), tex ), cen.r );
 
-    //fragColor = vec4( vec3( tot ), cen.r );
+    fragColor = vec4( vec3( tot ), cen.r );
 
 }
