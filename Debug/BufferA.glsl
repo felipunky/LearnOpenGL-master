@@ -11,7 +11,7 @@ uniform sampler2D iChannel1;
 const float dx = 0.5;
 const float dt = dx * dx * 0.5;
 const int ITER = 1;
-const float siz = 0.2;
+const float siz = 0.1;
 const int FIELD = 1;
 const float vf = 0.005;
 const float mul = 20.0;
