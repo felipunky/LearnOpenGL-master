@@ -4,4 +4,4 @@ For now it only runs on Windows machines.
 # To run
 Download the .zip file, extract. In the debug folder there is an executable file: LearnOpenGL.exe, double click and you are in.
 # Description
-The algorithm is mostly done through a ping-pong between shaders. it is inspired by http://developer.download.nvidia.com/books/HTML/gpugems/gpugems_ch38.html
+The algorithm is mostly done through a ping-pong between shaders using C++ for the CPU and OpenGl's GLSL for the GPU. It is inspired by http://developer.download.nvidia.com/books/HTML/gpugems/gpugems_ch38.html
