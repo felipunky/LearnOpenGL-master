@@ -14,12 +14,8 @@ void main()
 
 	vec2 uv = gl_FragCoord.xy / iResolution;
 
-	fragColor += texture( iChannel1, uv ) * vec4( 0.5, 0.2, 2.0, 1.0 );
-	fragColor += 0.5 * texture( iChannel2, uv );
-	fragColor += texture( iChannel3, uv );
-	//fragColor += texture( iChannel3, uv );
-	//fragColor = texture( iChannel3, uv );
-	//fragColor = clamp( fragColor, 0, 1 );
-	//fragColor = texture( iChannel0, uv );
+	fragColor = texture( iChannel1, uv );// * vec4( 0.5, 0.2, 2.0, 1.0 );
+	fragColor += 0.02 * texture( iChannel2, uv );
+	fragColor += 0.05 * texture( iChannel3, uv );
 
 }

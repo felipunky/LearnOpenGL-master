@@ -1,4 +1,4 @@
-#pragma comment( linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup" )
+//#pragma comment( linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup" )
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -24,10 +24,13 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 // Our image size.
-const unsigned int SRC_WIDTH = 1920;
-const unsigned int SRC_HEIGHT = 1080;
+unsigned int SRC_WIDTH = 1920;
+unsigned int SRC_HEIGHT = 1080;
 
 int WIDTH, HEIGHT;
+
+bool full = false;
+std::string fullPrompt;
 
 // We need this to be able to resize our window.
 void framebuffer_size_callback( GLFWwindow* window, int width, int height );
@@ -39,6 +42,14 @@ unsigned int loadTexture( const char *path );
 // Our mouse button click flag.
 float pressed = 0.0, right_pressed = 0.0;
 
+// Quality of texture fetches.
+int RGBA32 = 34836;
+int RGBA16 = 34842;
+
+int RGBA = 0;
+
+std::string quality;
+
 // Our mouse.
 static void cursorPositionCallback( GLFWwindow *window, double xPos, double yPos );
 // Our mouse button press.
@@ -47,14 +58,66 @@ static void mouseButtonCallback( GLFWwindow *window, int button, int action, int
 int main() 
 {
 
+	// Get input from user.
+	std::cout << "Do you want the simulation to run on fullscreen? yes or no: ";
+	std::cin >> fullPrompt;
+
+	if( fullPrompt == "yes" )
+	{
+
+		full = true;
+
+	}
+	
+	else
+	{
+	
+		full = false;
+	
+	}
+
+	if( full == false )
+	{
+
+		std::cout << "Specify the width size of the window: ";
+		std::cin >> SRC_WIDTH;
+
+		std::cout << "Specify the height size of the window: ";
+		std::cin >> SRC_HEIGHT;
+
+	}
+
+	std::cout << "High or low quality? type: high or low: ";
+	std::cin >> quality;
+
+	if( quality == "high"  )
+	{
+	
+		RGBA = RGBA32;
+	
+	}
+
+	else
+	{
+	
+		RGBA = RGBA16;
+	
+	}
+
 	// We initialize glfw and specify which versions of OpenGL to target.
 	glfwInit();
 	glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 3 );
 	glfwWindowHint( GLFW_CONTEXT_VERSION_MINOR, 3 );
 	glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
-
+	
 	// Our window object.
-	GLFWwindow* window = glfwCreateWindow( SRC_WIDTH, SRC_HEIGHT, "NavierStokeish", NULL, NULL );
+	GLFWmonitor* monitor = NULL;
+
+	if( full == true )
+		monitor = glfwGetPrimaryMonitor();
+
+	GLFWwindow* window = glfwCreateWindow(SRC_WIDTH, SRC_HEIGHT, "NavierStokeish", monitor, NULL);
+
 	if ( window == NULL )
 	{
 
@@ -238,7 +301,7 @@ int main()
 	unsigned int textureColourBuffer;
 	glGenTextures( 1, &textureColourBuffer );
 	glBindTexture( GL_TEXTURE_2D, textureColourBuffer );
-	glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA32F, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
+	glTexImage2D( GL_TEXTURE_2D, 0, RGBA, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
@@ -259,7 +322,7 @@ int main()
 	unsigned int textureColourBufferOne;
 	glGenTextures( 1, &textureColourBufferOne );
 	glBindTexture( GL_TEXTURE_2D, textureColourBufferOne);
-	glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA32F, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
+	glTexImage2D( GL_TEXTURE_2D, 0, RGBA, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER );
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
@@ -280,7 +343,7 @@ int main()
 	unsigned int textureColourBufferTwo;
 	glGenTextures( 1, &textureColourBufferTwo );
 	glBindTexture( GL_TEXTURE_2D, textureColourBufferTwo );
-	glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA32F, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
+	glTexImage2D( GL_TEXTURE_2D, 0, RGBA, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
@@ -300,7 +363,7 @@ int main()
 	unsigned int textureColourBufferThree;
 	glGenTextures( 1, &textureColourBufferThree );
 	glBindTexture( GL_TEXTURE_2D, textureColourBufferThree );
-	glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA32F, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
+	glTexImage2D( GL_TEXTURE_2D, 0, RGBA, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
@@ -321,7 +384,7 @@ int main()
 	unsigned int textureColourBufferFour;
 	glGenTextures( 1, &textureColourBufferFour );
 	glBindTexture( GL_TEXTURE_2D, textureColourBufferFour );
-	glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA32F, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
+	glTexImage2D( GL_TEXTURE_2D, 0, RGBA, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
@@ -341,7 +404,7 @@ int main()
 	unsigned int textureColourBufferFive;
 	glGenTextures( 1, &textureColourBufferFive );
 	glBindTexture( GL_TEXTURE_2D, textureColourBufferFive );
-	glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA32F, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
+	glTexImage2D( GL_TEXTURE_2D, 0, RGBA, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
@@ -362,7 +425,7 @@ int main()
 	unsigned int textureColourBufferSix;
 	glGenTextures( 1, &textureColourBufferSix );
 	glBindTexture( GL_TEXTURE_2D, textureColourBufferSix );
-	glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA32F, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
+	glTexImage2D( GL_TEXTURE_2D, 0, RGBA, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
