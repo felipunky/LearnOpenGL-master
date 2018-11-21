@@ -8,8 +8,8 @@ uniform float iTime;
 uniform vec2 iResolution;
 uniform vec3 iMouse;
 uniform sampler2D iChannel0;
-
-const float siz = 0.2;
+uniform sampler2D iChannel1;
+uniform sampler2D iChannel2;
 
 void main()
 {
@@ -22,11 +22,13 @@ void main()
 
 	vec2 uv = transformedPos.xy;
 
-	vec4 fld = texture2D( iChannel0, uv ).xyzw * 0.1;
+	vec4 fld = texture( iChannel0, uv );
+	
+	vec2 pos = ( fld.xy + aPos.xy );
 
-	vec2 pos = fld.xy + aPos.xy;
+	//pos += texture( iChannel1, uv ).zw;
 
-	vertexColour = vec4( fld.w );
+	vertexColour = texture( iChannel2, uv );
 
 	gl_Position = vec4( pos, 0, 1 );
 

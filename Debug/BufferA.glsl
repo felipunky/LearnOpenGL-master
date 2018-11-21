@@ -15,7 +15,7 @@ const float siz = 0.1;
 const int FIELD = 1;
 const float vf = 0.005;
 const float mul = 20.0;
-const float e = 0.0025;
+const float e = 1e-4;
 
 //2D Vector field visualizer by nmz (twitter: @stormoid)
 

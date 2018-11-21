@@ -202,7 +202,7 @@ int main()
 	// Unbind the VAO.
 	glBindVertexArray( 0 );
 
-	const int siz = 350;
+	const int siz = 600;
 
 	std::vector<glm::vec3> points;
 	std::vector<int> ind;
@@ -274,6 +274,7 @@ int main()
 	BufferB.use();
 	BufferB.setInt( "iChannel0", 1 );
 	BufferB.setInt( "iChannel1", 0 );
+	BufferB.setInt( "iChannel2", 2 );
 
 	BufferC.use();
 	BufferC.setInt( "iChannel0", 0 );
@@ -282,12 +283,14 @@ int main()
 	BufferD.use();
 	BufferD.setInt( "iChannel0", 0 );
 	BufferD.setInt( "iChannel1", 1 );
+	BufferD.setInt( "iChannel2", 2 );
 
 	Image.use();
 	Image.setInt( "iChannel0", 0 );
 	Image.setInt( "iChannel1", 1 );
 	Image.setInt( "iChannel2", 2 );
 	Image.setInt( "iChannel3", 3 );
+	Image.setInt( "iChannel4", 4 );
 
 	// BufferA Ping Pong FrameBuffers
 	// Framebuffer configuration.
@@ -436,6 +439,29 @@ int main()
 		std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
 	glBindFramebuffer( GL_FRAMEBUFFER, 0 );
 
+	// Framebuffer configuration.
+	unsigned int frameBufferSeven;
+	glGenFramebuffers( 1, &frameBufferSeven );
+	glBindFramebuffer( GL_FRAMEBUFFER, frameBufferSeven );
+
+	// Create a colour attachment texture.
+	unsigned int textureColourBufferSeven;
+	glGenTextures( 1, &textureColourBufferSeven );
+	glBindTexture( GL_TEXTURE_2D, textureColourBufferSeven );
+	glTexImage2D( GL_TEXTURE_2D, 0, RGBA, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+	glFramebufferTexture2D( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColourBufferSeven, 0 );
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// Add an image.
+	unsigned int tex = loadTexture( "Wind.png" );
+
 	// We want to know if the frame we are rendering is even or odd.
 	bool even = true;
 
@@ -535,6 +561,8 @@ int main()
 		glBindTexture( GL_TEXTURE_2D, even ? textureColourBufferOne : textureColourBuffer );
 		glActiveTexture( GL_TEXTURE1 );
 		glBindTexture( GL_TEXTURE_2D, even ? textureColourBufferThree : textureColourBufferTwo );
+		glActiveTexture( GL_TEXTURE2 );
+		glBindTexture( GL_TEXTURE_2D, tex );
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray( 0 );
 
@@ -573,7 +601,7 @@ int main()
 		glClear( GL_COLOR_BUFFER_BIT );
 
 		// BufferD
-		glBindFramebuffer( GL_FRAMEBUFFER, textureColourBufferSix );
+		glBindFramebuffer( GL_FRAMEBUFFER, even ? textureColourBufferSix : textureColourBufferSeven );
 		glClearColor( 0.2f, 0.3f, 0.1f, 1.0f );
 		glClear( GL_COLOR_BUFFER_BIT );
 
@@ -590,6 +618,10 @@ int main()
 		glBindVertexArray( VAOO );
 		glActiveTexture( GL_TEXTURE0 );
 		glBindTexture( GL_TEXTURE_2D, even ? textureColourBufferOne : textureColourBuffer );
+		glActiveTexture( GL_TEXTURE1 );
+		glBindTexture( GL_TEXTURE_2D, even ? textureColourBufferSeven : textureColourBufferSix );
+		glActiveTexture( GL_TEXTURE2 );
+		glBindTexture( GL_TEXTURE_2D, even ? textureColourBufferThree : textureColourBufferTwo );
 		glDrawElements( GL_POINTS, ind.size(), GL_UNSIGNED_INT, 0 );
 		glEnable( GL_PROGRAM_POINT_SIZE );
 		glBindVertexArray( 0 );
@@ -613,7 +645,9 @@ int main()
 		glActiveTexture( GL_TEXTURE2 );
 		glBindTexture( GL_TEXTURE_2D, even ? textureColourBufferFive : textureColourBufferFour );
 		glActiveTexture( GL_TEXTURE3 );
-		glBindTexture( GL_TEXTURE_2D, textureColourBufferSix );
+		glBindTexture( GL_TEXTURE_2D, even ? textureColourBufferSeven : textureColourBufferSix );
+		glActiveTexture( GL_TEXTURE4 );
+		glBindTexture( GL_TEXTURE_2D, tex );
 		glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0 );
 		
 		glBindVertexArray( 0 );
@@ -733,12 +767,12 @@ unsigned int loadTexture(char const * path)
 			format = GL_RGBA;
 
 		glBindTexture(GL_TEXTURE_2D, textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexImage2D(GL_TEXTURE_2D, 0, RGBA, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		stbi_image_free(data);
