@@ -6,14 +6,14 @@ uniform float iTime;
 uniform float iTimeDelta;
 uniform vec2 iResolution;
 uniform vec2 iVel;
-uniform vec3 iMouse;
+uniform vec4 iMouse;
 uniform sampler2D iChannel0;
 uniform sampler2D iChannel1;
 uniform sampler2D iChannel2;
 
 const float dx = 0.5;
 const float dt = dx * dx * 0.5;
-const float siz = 0.1;
+const float siz = 0.05;
 const float di = 0.25;
 const float alp = ( dx * dx ) / dt;
 const float rbe = 1.0 / ( 4.0 + alp );
@@ -142,10 +142,21 @@ vec2 adv( vec2 uv, vec2 p, vec2 mou )
 
     // Eulerian.
     vec2 pre = texture( iChannel1, vor( uv ) ).xy;
-	if( iMouse.z > 0.5 && cir( p, mou, siz ) > 0.0 ) 
-	pre = 3.0 * vel;
-    pre = iTimeDelta * dt * pre;
+	if( cir( p, mou, siz ) > 0.0 )
+	{
+		
+		if( iMouse.z > 0.5 )
+
+		pre = 3.0 * vel;
+
+		if( iMouse.w > 0.5 )
+
+		pre *= 0.0;
     
+	}
+
+	pre = iTimeDelta * dt * pre;
+
     uv -= pre;
     
     return uv;
@@ -157,11 +168,23 @@ vec4 forc( vec2 uv, vec2 p, vec2 mou )
 
     vec4 col = vec4( 0 ); 
 
-	col += 0.001 * texture( iChannel2, uv );
+	if( iFrame < 5 )
 
-    if( iMouse.z > 0.5 && cir( p, mou, siz ) > 0.0 )
-	col += 0.1 * vec4( noise( uv + iTime * 0.5 ), noise( uv + 2.0 + iTime * 0.5 ), noise( uv + 1.0 + iTime * 0.5 ), 1 );
-    
+	col += 0.05 * texture( iChannel2, uv );
+
+	if( cir( p, mou, siz ) > 0.0 )
+	{ 
+
+		if( iMouse.z > 0.5 )
+
+		col += 0.05 * vec4( noise( uv + iTime * 0.5 ), noise( uv + 2.0 + iTime * 0.5 ), noise( uv + 1.0 + iTime * 0.5 ), 1 );  
+
+		if( iMouse.w > 0.5 )
+
+		col -= 0.05;
+
+	}
+
     return col;
 
 }
@@ -217,12 +240,12 @@ vec4 fin( vec2 uv, vec2 p, vec2 mou )
     vec4 col = vec4( 0.0 ); float dam = 1.0; vec4 colO = vec4( 0 ); vec2 pre = uv;
     
     uv = adv( uv, p, mou );
-    uv -= dt * iTimeDelta * ( vel( uv ) * dif( uv ) );
+    uv -= dt * ( vel( uv ) * dif( uv ) );	
+
     col += forc( uv, p, mou );
     colO = texture( iChannel0, uv ) + col; 
-    dam *= 0.99;
-    colO *= dam;
-    
+    //dam *= 0.99;
+    //colO *= dam;
     if( pre.y < 0.00 || pre.x < 0.00 || pre.x > 1.0 || pre.y > 1.0 ) colO *= 0.0;
     
     return colO;

@@ -18,7 +18,7 @@ int initialTime = time( NULL ), finalTime, frameCount, frames, FPS;
 const char* title;
 // Mouse.
 static double xPre, yPre;
-double xPos, yPos, xDif, yDif, xAce, yAce, vX, vY;
+double xPos, yPos, xDif, yDif, vX, vY;
 // timing
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
@@ -59,10 +59,10 @@ int main()
 {
 
 	// Get input from user.
-	std::cout << "Do you want the simulation to run on fullscreen? yes or no: ";
+	std::cout << "Do you want the simulation to run on fullscreen? yes or no, type: y for yes or n for no: ";
 	std::cin >> fullPrompt;
 
-	if( fullPrompt == "yes" )
+	if( fullPrompt == "y" )
 	{
 
 		full = true;
@@ -87,10 +87,10 @@ int main()
 
 	}
 
-	std::cout << "High or low quality? type: high or low: ";
+	std::cout << "High or low quality? high or low: type h for high or l for low: ";
 	std::cin >> quality;
 
-	if( quality == "high"  )
+	if( quality == "h"  )
 	{
 	
 		RGBA = RGBA32;
@@ -552,7 +552,7 @@ int main()
 		// Set the iResolution uniform.
 		BufferB.setVec2( "iResolution", WIDTH, HEIGHT );
 		// Input iMouse.
-		BufferB.setVec3( "iMouse", xPos, yPos, pressed );
+		BufferB.setVec4( "iMouse", xPos, yPos, pressed, right_pressed );
 		// Input mouse iVel.
 		BufferB.setVec2( "iVel", vX, vY );
 
@@ -742,6 +742,28 @@ static void mouseButtonCallback(GLFWwindow *window, int button, int action, int 
 
 	}
 
+	if( button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS )
+	{
+
+		if (right_pressed == 0.0)
+		{
+
+			right_pressed = 1.0;
+
+		}
+	}
+
+	if( button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE )
+	{ 
+
+		if( right_pressed = 1.0 )
+		{
+		
+			right_pressed = 0.0;
+		
+		}
+
+	}
 	//std::cout << std::boolalpha << pressed << std::endl;
 
 }
