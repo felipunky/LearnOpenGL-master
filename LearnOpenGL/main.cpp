@@ -104,6 +104,14 @@ int main()
 	
 	}
 
+	std::cout << "Specify the path to the texture you want to use to initialize the simulation: " << std::endl;
+
+	std::string texturePathString;
+
+	std::cin >> texturePathString;
+
+	const char* texturePath = &texturePathString[0];
+
 	// We initialize glfw and specify which versions of OpenGL to target.
 	glfwInit();
 	glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 3 );
@@ -460,7 +468,7 @@ int main()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// Add an image.
-	unsigned int tex = loadTexture( "Wind.png" );
+	unsigned int tex = loadTexture( texturePath );
 
 	// We want to know if the frame we are rendering is even or odd.
 	bool even = true;

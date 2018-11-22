@@ -168,7 +168,7 @@ vec4 forc( vec2 uv, vec2 p, vec2 mou )
 
     vec4 col = vec4( 0 ); 
 
-	if( iFrame < 5 )
+	if( iFrame <= 5 )
 
 	col += 0.05 * texture( iChannel2, uv );
 
@@ -177,11 +177,11 @@ vec4 forc( vec2 uv, vec2 p, vec2 mou )
 
 		if( iMouse.z > 0.5 )
 
-		col += 0.05 * vec4( noise( uv + iTime * 0.5 ), noise( uv + 2.0 + iTime * 0.5 ), noise( uv + 1.0 + iTime * 0.5 ), 1 );  
+		col += 0.07 * vec4( noise( uv + iTime * 0.5 ), noise( uv + 2.0 + iTime * 0.5 ), noise( uv + 1.0 + iTime * 0.5 ), 1 );  
 
 		if( iMouse.w > 0.5 )
 
-		col -= 0.05;
+		col -= 0.07;
 
 	}
 
