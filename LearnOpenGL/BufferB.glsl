@@ -4,16 +4,18 @@ out vec4 fragColor;
 uniform int iFrame;
 uniform float iTime;
 uniform float iTimeDelta;
+uniform float siz;
+uniform float iDamping;
 uniform vec2 iResolution;
 uniform vec2 iVel;
 uniform vec4 iMouse;
+uniform vec4 iColour;
 uniform sampler2D iChannel0;
 uniform sampler2D iChannel1;
 uniform sampler2D iChannel2;
 
 const float dx = 0.5;
 const float dt = dx * dx * 0.5;
-const float siz = 0.05;
 const float di = 0.25;
 const float alp = ( dx * dx ) / dt;
 const float rbe = 1.0 / ( 4.0 + alp );
@@ -181,11 +183,11 @@ vec4 forc( vec2 uv, vec2 p, vec2 mou )
 
 		if( iMouse.w > 0.5 )
 
-		col -= 0.07;
+		col += 0.07 * iColour;
 
 	}
 
-    return col;
+    return col * iDamping;
 
 }
 

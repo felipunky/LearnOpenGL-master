@@ -68,7 +68,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\Downloads\glfw-3.2.1\include;D:\Downloads\glm-0.9.9.1\glm-0.9.9.1\glm;D:\Downloads\glad-master\build\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Downloads\glfw-3.2.1\include;D:\Downloads\glm-0.9.9.1\glm-0.9.9.1\glm;D:\Downloads\glad-master\build\include;D:\Programas\GUI\imgui;D:\Programas\GUI\imgui\examples;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Downloads\glfw-3.2.1\build\src\Debug;D:\Downloads\glm-0.9.9.1\glm-0.9.9.1\build\glm\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -79,7 +79,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -123,6 +123,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Downloads\glad-master\build\src\glad.c" />
+    <ClCompile Include="..\..\..\GUI\imgui\examples\imgui_impl_glfw.cpp" />
+    <ClCompile Include="..\..\..\GUI\imgui\examples\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="..\..\..\GUI\imgui\examples\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\..\..\GUI\imgui\imgui.cpp" />
+    <ClCompile Include="..\..\..\GUI\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\..\GUI\imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@ out vec4 fragColor;
 
 uniform float iTime;
 uniform float iTimeDelta;
+uniform float siz;
 uniform vec2 iResolution;
 uniform vec3 iMouse;
 uniform sampler2D iChannel0;
@@ -11,7 +12,6 @@ uniform sampler2D iChannel1;
 const float dx = 0.5;
 const float dt = dx * dx * 0.5;
 const int ITER = 1;
-const float siz = 0.05;
 const int FIELD = 1;
 const float vf = 0.005;
 const float mul = 20.0;
