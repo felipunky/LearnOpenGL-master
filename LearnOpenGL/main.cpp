@@ -564,7 +564,7 @@ int main()
 
 			}
 
-		ImGui::Text(negativeOrNot.c_str());
+		ImGui::Text( negativeOrNot.c_str() );
 		ImGui::ColorEdit3( "Right-Click Colour", ( float* ) &rightMouseColour ); // Edit 3 floats representing a color
 		ImGui::End();
 
@@ -593,6 +593,15 @@ int main()
 
 		// Input iMouse.
 		glfwGetCursorPos( window, &xPos, &yPos );
+		
+		if( ImGui::IsMouseHoveringAnyWindow() == 1 || ImGui::IsAnyItemHovered() == 1 )
+		{
+		
+			pressed = 0; 
+			right_pressed = 0;
+
+		}
+
 		yPos = HEIGHT - yPos;
 
 		xDif = xPos - xPre;
