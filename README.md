@@ -23,6 +23,5 @@ I implemented a GUI to modify the simulation and the possibility to specify a fi
 
 http://nomads.ncep.noaa.gov
 
-But there are some from the GFS Ensemble Forecasts and the CMC Ensemble Forecasts
-.
-![simulation](https://user-images.githubusercontent.com/21000020/48935165-abf15f00-eed4-11e8-9718-6bf1e08e0929.JPG)
+But there are some from the GFS Ensemble Forecasts and the CMC Ensemble Forecasts.
+![simone](https://user-images.githubusercontent.com/21000020/48937249-7b60f380-eedb-11e8-9c67-192a9b675077.gif)
