@@ -109,11 +109,11 @@ int main()
 	
 	}
 
-	//std::cout << "Specify the path to the texture you want to use to initialize the simulation: " << std::endl;
+	std::cout << "Specify the path to the texture you want to use to initialize the simulation (no double quotes please!): " << std::endl;
 
 	std::string texturePathString = "Wind.png";
 	
-	//std::cin >> texturePathString;
+	std::cin >> texturePathString;
 
 	const char* texturePath = &texturePathString[0];
 
