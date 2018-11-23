@@ -158,9 +158,6 @@ int main()
 
 	}
 
-	// Setup window
-	char path[1024];
-
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
