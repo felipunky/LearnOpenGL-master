@@ -7,6 +7,8 @@ uniform float iTimeDelta;
 uniform float siz;
 uniform float iDamping;
 uniform float iDiffusion;
+uniform float iVorticity;
+uniform int iReload;
 uniform int iColourFlag;
 uniform int iNegativeFlag;
 uniform vec2 iResolution;
@@ -23,7 +25,7 @@ const float dt = dx * dx * 0.5;
 float di = iDiffusion;
 const float alp = ( dx * dx ) / dt;
 const float rbe = 1.0 / ( 4.0 + alp );
-const float vo = 12.0;
+float vo = iVorticity;
 
 // We need this for our hash function
 #define HASHSCALE1 .1031
@@ -163,7 +165,7 @@ vec2 adv( vec2 uv, vec2 p, vec2 mou )
 
 	pre = iTimeDelta * dt * pre;
 
-    uv -= pre;
+	uv -= pre;
     
     return uv;
     
@@ -174,7 +176,7 @@ vec4 forc( vec2 uv, vec2 p, vec2 mou )
 
     vec4 col = vec4( 0 ); 
 
-	if( iFrame <= 5 )
+	if( iFrame <= 5 || iReload == 1 )
 
 	col += 0.05 * texture( iChannel2, uv );
 

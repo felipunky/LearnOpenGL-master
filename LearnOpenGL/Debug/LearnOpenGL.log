@@ -3,16 +3,16 @@ d:\programas\opengl\learnopengl-master\learnopengl\shader.h(65): warning C4101: 
 d:\programas\opengl\learnopengl-master\learnopengl\shader.h(64): warning C4101: 'success': unreferenced local variable
 d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(21): warning C4244: 'initializing': conversion from 'time_t' to 'int', possible loss of data
 d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(239): warning C4305: 'initializing': truncation from 'double' to 'float'
-d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(580): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(589): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(632): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(657): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(659): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(661): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(703): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(705): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(731): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(733): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(754): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(786): warning C4244: '=': conversion from 'time_t' to 'int', possible loss of data
+d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(592): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(601): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(644): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(669): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(671): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(673): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(719): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(721): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(747): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(749): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(770): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\programas\opengl\learnopengl-master\learnopengl\main.cpp(802): warning C4244: '=': conversion from 'time_t' to 'int', possible loss of data
   LearnOpenGL.vcxproj -> D:\Programas\OpenGL\LearnOpenGL-master\Debug\LearnOpenGL.exe

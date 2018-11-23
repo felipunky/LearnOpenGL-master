@@ -109,11 +109,11 @@ int main()
 	
 	}
 
-	std::cout << "Specify the path to the texture you want to use to initialize the simulation: " << std::endl;
+	//std::cout << "Specify the path to the texture you want to use to initialize the simulation: " << std::endl;
 
-	std::string texturePathString;
-
-	std::cin >> texturePathString;
+	std::string texturePathString = "Wind.png";
+	
+	//std::cin >> texturePathString;
 
 	const char* texturePath = &texturePathString[0];
 
@@ -498,16 +498,17 @@ int main()
 	ImVec4 rightMouseColour = ImVec4( 0.45f, 0.55f, 0.60f, 1.00f );
 	std::string randomOrNot = "Random Colours!";
 	std::string negativeOrNot = "Negative Colours!";
+	static float diffusionRate = 0.25f;
+	static float sizeOfPainter = 0.05f;
+	static float damping = 1.0f;
+	static float vorticity = 12.0f;
+	static int randomColours = 1;
+	static int negativeColours = 1;
+	static int reloadTexture = 0;
 
 	// Render Loop.
 	while( !glfwWindowShouldClose( window ) )
 	{
-
-		static float diffusionRate = 0.25f;
-		static float sizeOfPainter = 0.05f;
-		static float damping = 1.0f;
-		static int randomColours = 1;
-		static int negativeColours = 1;
 
 		glfwGetFramebufferSize( window, &WIDTH, &HEIGHT );
 
@@ -523,9 +524,20 @@ int main()
 		
 		ImGui::Begin( "Graphical User Interface" );   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
 		ImGui::Text( "Pick your weapons!" );    
-		ImGui::SliderFloat( "Diffusion Rate", &diffusionRate, 0.0f, 1.0f );
 		ImGui::SliderFloat( "Size of Mouse Painter", &sizeOfPainter, 0.0f, 1.0f );  // Edit 1 float using a slider from 0.0f to 1.0f
-		ImGui::SliderFloat( "Damping factor: 1 for no damping, less for more", &damping, 0.0f, 1.0f );
+		if( ImGui::Button( "Reload Texture" ) )
+
+			reloadTexture = 1;
+		
+		else
+		{
+		
+			reloadTexture = 0;
+
+		}
+		ImGui::SliderFloat( "Diffusion Rate", &diffusionRate, 0.0f, 1.0f );
+		ImGui::SliderFloat( "Vorticity Confinement", &vorticity, 1.0f, 20.0f );
+		ImGui::SliderFloat( "Damping factor", &damping, 0.0f, 1.0f );
 		if( ImGui::Button( "Left-Click Random Colours" ) )
 
 			if( randomColours == 0 )
@@ -672,6 +684,10 @@ int main()
 		BufferB.setInt( "iNegativeFlag", negativeColours );
 		// Input the diffusion rate float.
 		BufferB.setFloat( "iDiffusion", diffusionRate );
+		// Input the vorticity confinement float.
+		BufferB.setFloat( "iVorticity", vorticity );
+		// Input the reload texture flag.
+		BufferB.setInt( "iReload", reloadTexture );
 
 		glBindVertexArray( VAO );
 		glActiveTexture( GL_TEXTURE0 );
