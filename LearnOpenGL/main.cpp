@@ -59,11 +59,6 @@ static void cursorPositionCallback( GLFWwindow *window, double xPos, double yPos
 // Our mouse button press.
 static void mouseButtonCallback( GLFWwindow *window, int button, int action, int mods );
 
-int s1 = -1;
-void ShowAnotherWindow() {
-	ImGui::Text("Options:");
-	ImGui::InputInt("Rotate Index", &s1);
-}
 
 int main() 
 {
