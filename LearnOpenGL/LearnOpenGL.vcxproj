@@ -136,16 +136,14 @@
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="BufferC.glsl" />
-    <None Include="BufferD.glsl" />
-    <None Include="BufferDVertex.glsl" />
-    <None Include="Image.glsl" />
-    <None Include="BufferA.glsl" />
+    <None Include="..\Debug\BufferA.glsl" />
+    <None Include="..\Debug\BufferB.glsl" />
+    <None Include="..\Debug\BufferC.glsl" />
+    <None Include="..\Debug\BufferD.glsl" />
+    <None Include="..\Debug\BufferDVertex.glsl" />
+    <None Include="..\Debug\Image.glsl" />
+    <None Include="..\Debug\vertex.glsl" />
     <None Include="vertex.glsl" />
-    <None Include="BufferB.glsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Cassini-Projection-2.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

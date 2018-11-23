@@ -52,28 +52,26 @@
     <None Include="vertex.glsl">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="BufferA.glsl">
+    <None Include="..\Debug\BufferA.glsl">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="Image.glsl">
+    <None Include="..\Debug\BufferB.glsl">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="BufferB.glsl">
+    <None Include="..\Debug\BufferC.glsl">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="BufferC.glsl">
+    <None Include="..\Debug\BufferD.glsl">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="BufferD.glsl">
+    <None Include="..\Debug\BufferDVertex.glsl">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="BufferDVertex.glsl">
+    <None Include="..\Debug\Image.glsl">
       <Filter>Source Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Cassini-Projection-2.jpg">
+    <None Include="..\Debug\vertex.glsl">
       <Filter>Source Files</Filter>
-    </Image>
+    </None>
   </ItemGroup>
 </Project>
