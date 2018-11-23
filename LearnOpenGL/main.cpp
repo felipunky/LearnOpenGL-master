@@ -502,15 +502,20 @@ int main()
 	bool even = true;
 
 	// Setup input for GUI.
-	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+	ImVec4 leftMouseColour = ImVec4( 0.45f, 0.55f, 0.60f, 1.00f );
+	ImVec4 rightMouseColour = ImVec4( 0.45f, 0.55f, 0.60f, 1.00f );
+	std::string randomOrNot = "Random Colours!";
+	std::string negativeOrNot = "Negative Colours!";
 
 	// Render Loop.
 	while( !glfwWindowShouldClose( window ) )
 	{
 
+		static float diffusionRate = 0.25f;
 		static float sizeOfPainter = 0.05f;
 		static float damping = 1.0f;
-		static int randomColours = 0;
+		static int randomColours = 1;
+		static int negativeColours = 1;
 
 		glfwGetFramebufferSize( window, &WIDTH, &HEIGHT );
 
@@ -525,23 +530,50 @@ int main()
 		ImGui::NewFrame();
 		
 		ImGui::Begin( "Graphical User Interface" );   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-		ImGui::Text( "Pick your weapons!" );          
+		ImGui::Text( "Pick your weapons!" );    
+		ImGui::SliderFloat( "Diffusion Rate", &diffusionRate, 0.0f, 1.0f );
+		ImGui::SliderFloat( "Size of Mouse Painter", &sizeOfPainter, 0.0f, 1.0f );  // Edit 1 float using a slider from 0.0f to 1.0f
 		ImGui::SliderFloat( "Damping factor: 1 for no damping, less for more", &damping, 0.0f, 1.0f );
 		if( ImGui::Button( "Left-Click Random Colours" ) )
+
 			if( randomColours == 0 )
+			{
 
 				randomColours = 1;
+				randomOrNot = "Random Colours!";
+
+			}
 
 			else
 			{
 			
 				randomColours = 0;
+				randomOrNot = "Not Random Colours";
 
 			}
-		std::string random = std::to_string( randomColours );
-		ImGui::Text( random.c_str() );
-		ImGui::SliderFloat( "Size of Mouse Painter", &sizeOfPainter, 0.0f, 1.0f );  // Edit 1 float using a slider from 0.0f to 1.0f
-		ImGui::ColorEdit3( "Right-Click Colour", ( float* ) &clear_color ); // Edit 3 floats representing a color
+
+		ImGui::Text( randomOrNot.c_str() );
+		ImGui::ColorEdit3( "Left-Click Colour", ( float* ) &leftMouseColour );
+		if( ImGui::Button( "Right-Click Negative Colours" ) )
+
+			if( negativeColours == 0 )
+			{
+
+				negativeColours = 1;
+				negativeOrNot = "Negative Colours!";
+
+			}
+
+			else
+			{
+			
+				negativeColours = 0;
+				negativeOrNot = "Not Negative Colours";
+
+			}
+
+		ImGui::Text(negativeOrNot.c_str());
+		ImGui::ColorEdit3( "Right-Click Colour", ( float* ) &rightMouseColour ); // Edit 3 floats representing a color
 		ImGui::End();
 
 		// Render.
@@ -627,11 +659,18 @@ int main()
 		// Input mouse iVel.
 		BufferB.setVec2( "iVel", vX, vY );
 		// Input colour from GUI.
-		BufferB.setVec4( "iColour", clear_color.x, clear_color.y, clear_color.z, clear_color.w );
+		BufferB.setVec4( "iColour", leftMouseColour.x, leftMouseColour.y, leftMouseColour.z, leftMouseColour.w );
+		BufferB.setVec4( "iColourOne", rightMouseColour.x, rightMouseColour.y, rightMouseColour.z, rightMouseColour.w );
 		// Input the size of the Mouse Painter.
 		BufferB.setFloat( "siz", sizeOfPainter );
 		// Input the damping factor.
 		BufferB.setFloat( "iDamping", damping );
+		// Input the colour flag.
+		BufferB.setInt( "iColourFlag", randomColours );
+		// Input the negative flag.
+		BufferB.setInt( "iNegativeFlag", negativeColours );
+		// Input the diffusion rate float.
+		BufferB.setFloat( "iDiffusion", diffusionRate );
 
 		glBindVertexArray( VAO );
 		glActiveTexture( GL_TEXTURE0 );
