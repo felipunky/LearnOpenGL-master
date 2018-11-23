@@ -4,17 +4,23 @@ out vec4 fragColor;
 uniform int iFrame;
 uniform float iTime;
 uniform float iTimeDelta;
+uniform float siz;
+uniform float iDamping;
+uniform float iDiffusion;
+uniform int iColourFlag;
+uniform int iNegativeFlag;
 uniform vec2 iResolution;
 uniform vec2 iVel;
 uniform vec4 iMouse;
+uniform vec4 iColour;
+uniform vec4 iColourOne;
 uniform sampler2D iChannel0;
 uniform sampler2D iChannel1;
 uniform sampler2D iChannel2;
 
 const float dx = 0.5;
 const float dt = dx * dx * 0.5;
-const float siz = 0.05;
-const float di = 0.25;
+float di = iDiffusion;
 const float alp = ( dx * dx ) / dt;
 const float rbe = 1.0 / ( 4.0 + alp );
 const float vo = 12.0;
@@ -176,12 +182,29 @@ vec4 forc( vec2 uv, vec2 p, vec2 mou )
 	{ 
 
 		if( iMouse.z > 0.5 )
+		{
 
-		col += 0.07 * vec4( noise( uv + iTime * 0.5 ), noise( uv + 2.0 + iTime * 0.5 ), noise( uv + 1.0 + iTime * 0.5 ), 1 );  
+			if( iColourFlag == 1 )
+
+				col += 0.07 * vec4( noise( uv + iTime * 0.5 ), noise( uv + 2.0 + iTime * 0.5 ), noise( uv + 1.0 + iTime * 0.5 ), 1 );  
+
+			if( iColourFlag == 0 )
+
+				col += 0.07 * iColour;
+		}
 
 		if( iMouse.w > 0.5 )
+		{ 
+		
+			if( iNegativeFlag == 0 )
 
-		col -= 0.07;
+				col += 0.07 * iColourOne;
+
+			if( iNegativeFlag == 1 )
+
+				col -= 0.07;
+
+		}
 
 	}
 
@@ -248,7 +271,7 @@ vec4 fin( vec2 uv, vec2 p, vec2 mou )
     //colO *= dam;
     if( pre.y < 0.00 || pre.x < 0.00 || pre.x > 1.0 || pre.y > 1.0 ) colO *= 0.0;
     
-    return colO;
+    return colO * iDamping;
 
 }
 
