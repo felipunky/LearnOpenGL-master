@@ -26,4 +26,3 @@ http://nomads.ncep.noaa.gov
 But there are some from the GFS Ensemble Forecasts and the CMC Ensemble Forecasts.
 ![simone](https://user-images.githubusercontent.com/21000020/48937249-7b60f380-eedb-11e8-9c67-192a9b675077.gif)
 
-Note: in some computers you have to add the images for the initial state in the debug folder where the executable is and just specify the path as the name of the image.
