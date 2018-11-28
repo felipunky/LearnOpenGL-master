@@ -55,7 +55,7 @@ void main()
 
     float o = 0.0;
     
-	o = texture( iChannel0, uv ).a * 0.99;
+	o = texture( iChannel0, uv ).a * 0.98;
 	fO += o;
 
     if( p.y < 0.00 || p.x < 0.00 || p.x > mul || p.y > mul ) o *= 0.0;
