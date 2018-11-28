@@ -6,11 +6,14 @@ uniform float iTime;
 uniform float iTimeDelta;
 uniform float siz;
 uniform float iDamping;
+uniform float iForce;
 uniform float iDiffusion;
 uniform float iVorticity;
+uniform float iMultiplier;
 uniform int iReload;
 uniform int iColourFlag;
 uniform int iNegativeFlag;
+uniform int iBlack;
 uniform vec2 iResolution;
 uniform vec2 iVel;
 uniform vec4 iMouse;
@@ -155,7 +158,7 @@ vec2 adv( vec2 uv, vec2 p, vec2 mou )
 		
 		if( iMouse.z > 0.5 )
 
-		pre = 3.0 * vel;
+		pre = iMultiplier * vel;
 
 		if( iMouse.w > 0.5 )
 
@@ -180,6 +183,8 @@ vec4 forc( vec2 uv, vec2 p, vec2 mou )
 
 	col += 0.05 * texture( iChannel2, uv );
 
+	if( iBlack == 1 ) col -= iForce;
+
 	if( cir( p, mou, siz ) > 0.0 )
 	{ 
 
@@ -188,11 +193,11 @@ vec4 forc( vec2 uv, vec2 p, vec2 mou )
 
 			if( iColourFlag == 1 )
 
-				col += 0.07 * vec4( noise( uv + iTime * 0.5 ), noise( uv + 2.0 + iTime * 0.5 ), noise( uv + 1.0 + iTime * 0.5 ), 1 );  
+				col += iForce * vec4( noise( uv + iTime * 0.5 ), noise( uv + 2.0 + iTime * 0.5 ), noise( uv + 1.0 + iTime * 0.5 ), 1 );  
 
 			if( iColourFlag == 0 )
 
-				col += 0.07 * iColour;
+				col += iForce * iColour;
 		}
 
 		if( iMouse.w > 0.5 )
@@ -200,11 +205,11 @@ vec4 forc( vec2 uv, vec2 p, vec2 mou )
 		
 			if( iNegativeFlag == 0 )
 
-				col += 0.07 * iColourOne;
+				col += iForce * iColourOne;
 
 			if( iNegativeFlag == 1 )
 
-				col -= 0.07;
+				col -= iForce;
 
 		}
 
@@ -266,11 +271,9 @@ vec4 fin( vec2 uv, vec2 p, vec2 mou )
     
     uv = adv( uv, p, mou );
     uv -= dt * ( vel( uv ) * dif( uv ) );	
-
     col += forc( uv, p, mou );
     colO = texture( iChannel0, uv ) + col; 
-    //dam *= 0.99;
-    //colO *= dam;
+
     if( pre.y < 0.00 || pre.x < 0.00 || pre.x > 1.0 || pre.y > 1.0 ) colO *= 0.0;
     
     return colO * iDamping;

@@ -130,7 +130,10 @@ int main()
 	if( full == true )
 		monitor = glfwGetPrimaryMonitor();
 
-	GLFWwindow* window = glfwCreateWindow(SRC_WIDTH, SRC_HEIGHT, "NavierStokeish", monitor, NULL);
+	const GLFWvidmode* mode = glfwGetVideoMode( glfwGetPrimaryMonitor() );
+	GLFWwindow* window = glfwCreateWindow( SRC_WIDTH, SRC_HEIGHT, "NavierStokeish", monitor, NULL );
+
+	glfwSetWindowPos( window, ( mode->width-SRC_WIDTH ) * 0.5, ( mode->height-SRC_HEIGHT ) * 0.5 );
 
 	if ( window == NULL )
 	{
@@ -502,9 +505,12 @@ int main()
 	static float sizeOfPainter = 0.05f;
 	static float damping = 1.0f;
 	static float vorticity = 12.0f;
+	static float inputForce = 0.07f;
+	static float velocityMultiplier = 3.0f;
 	static int randomColours = 1;
 	static int negativeColours = 1;
 	static int reloadTexture = 0;
+	static int blackColour = 0;
 
 	// Render Loop.
 	while( !glfwWindowShouldClose( window ) )
@@ -535,8 +541,21 @@ int main()
 			reloadTexture = 0;
 
 		}
+
+		if( ImGui::Button( "Black Colour" ) )
+
+			blackColour = 1;
+		
+		else
+		{
+		
+			blackColour = 0;
+
+		}
 		ImGui::SliderFloat( "Diffusion Rate", &diffusionRate, 0.0f, 1.0f );
-		ImGui::SliderFloat( "Vorticity Confinement", &vorticity, 1.0f, 20.0f );
+		ImGui::SliderFloat( "Input Force", &inputForce, 0.05f, 0.1f );
+		ImGui::SliderFloat( "Velocity Multiplier", &velocityMultiplier, 0.0f, 20.0f );
+		ImGui::SliderFloat( "Vorticity Confinement", &vorticity, 0.0f, 100.0f );
 		ImGui::SliderFloat( "Damping factor", &damping, 0.0f, 1.0f );
 		if( ImGui::Button( "Left-Click Random Colours" ) )
 
@@ -684,10 +703,16 @@ int main()
 		BufferB.setInt( "iNegativeFlag", negativeColours );
 		// Input the diffusion rate float.
 		BufferB.setFloat( "iDiffusion", diffusionRate );
+		// Input the force of the painter.
+		BufferB.setFloat( "iForce", inputForce );
+		// Input the velocity multiplier.
+		BufferB.setFloat( "iMultiplier", velocityMultiplier );
 		// Input the vorticity confinement float.
 		BufferB.setFloat( "iVorticity", vorticity );
 		// Input the reload texture flag.
 		BufferB.setInt( "iReload", reloadTexture );
+		// Input the possibility to turn the screen black.
+		BufferB.setInt( "iBlack", blackColour );
 
 		glBindVertexArray( VAO );
 		glActiveTexture( GL_TEXTURE0 );

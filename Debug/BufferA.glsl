@@ -13,8 +13,8 @@ const float dx = 0.5;
 const float dt = dx * dx * 0.5;
 const int ITER = 1;
 const int FIELD = 1;
-const float vf = 0.005;
-const float mul = 20.0;
+const float vf = 0.0005;
+const float mul = 1.0;
 const float e = 1e-4;
 
 //2D Vector field visualizer by nmz (twitter: @stormoid)
@@ -35,8 +35,8 @@ void main()
     mou *= mul;
     
     float fO = 0.0;
-    fO += texture( iChannel1, uv ).r + texture( iChannel1, uv ).g + texture( iChannel1, uv ).b;
-   	fO *= 0.333;
+    fO += texture( iChannel1, uv ).r + texture( iChannel1, uv ).g + texture( iChannel1, uv ).b + texture( iChannel1, uv ).a;
+   	fO *= 0.25;
     
     vec2 ep = vec2( e, 0 );
     vec2 rz= vec2( 0 );
@@ -55,7 +55,7 @@ void main()
 
     float o = 0.0;
     
-	o = texture( iChannel0, uv ).a * 0.98;
+	o = texture( iChannel0, uv ).a * 0.99;
 	fO += o;
 
     if( p.y < 0.00 || p.x < 0.00 || p.x > mul || p.y > mul ) o *= 0.0;
